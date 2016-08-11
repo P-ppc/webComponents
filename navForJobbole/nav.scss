@@ -1,0 +1,97 @@
+@mixin trans($transition, $time) {
+    transition:$transition $time;
+    -moz-transition:$transition $time; /* Firefox 4 */
+    -webkit-transition:$transition $time; /* Safari and Chrome */
+    -o-transition:$transition $time; /* Opera */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+    font-size: 12px;
+    font-family: "Microsoft YaHei", 'Myriad Pro','Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.top-nav {
+    height: 30px;
+    width: 100%;
+    z-index: 300;
+    position: fixed;
+    background: #f8f8f8;
+    border-bottom: 1px solid #eee;
+    top: 0;
+
+    > .container {
+        height: 100%;
+        display: block;
+        width: 960px;
+        margin: 0 auto;
+
+        .nav-menu {
+            li {
+                float: left;
+                border-right: 1px solid #eee;
+                position: relative;
+                &:last-child {
+                    border-right: none;
+                }
+
+                a {
+                    display: block;
+                    height: 100%;
+                    line-height: 35px;
+                    padding: 0 10px;
+                }
+
+                &:hover a {
+                    background-color: #ddd;
+                }
+                
+                &:hover ul.sub-nav-menu {
+                    display: block;
+                }
+
+                ul.sub-nav-menu {
+                    display: none;
+                    position: absolute;
+                    background-color: #ddd;
+                    padding: 10px 0;
+                    width: auto;
+                    min-width: 100%;
+                    li {
+                        float: none;
+                        height: 30px;
+                        line-height: 30px;
+                        border: none;
+                        padding: 0 10px;
+                        white-space: nowrap;
+                        min-width: 140px;
+
+                        &:first-child a {
+                            border-top: none;
+                        }
+                        a {
+                            display: block;
+                            border-top: 1px solid #ccc;
+                            @include trans(padding, 0.3s);
+                            &:hover {
+                                padding: 0 20px;
+                            }
+                        }
+                        
+                    }
+                }
+
+            }
+        }
+    }
+}
