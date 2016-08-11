@@ -1,0 +1,126 @@
+@charset 'UTF-8';
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.title { 
+    width: 500px;
+    text-align: center;
+    margin: 20px auto;
+}
+
+table {
+    margin: auto;
+}
+
+.box {
+    margin: auto;
+    width: 300px;
+    height: 300px;
+    border: 1px solid #ccc;
+}
+
+.obj {
+    width: 100px;
+    height: 100px;
+    background-color: #ccc;
+}
+
+
+.obj-1 {
+    margin: auto;
+}
+
+.box-2 {
+    text-align: center;
+}
+
+.box-3 {
+    line-height: 300px;
+}
+
+.box-4 {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.obj-4 {
+    display: inline-block;
+}
+
+.box-5 {
+
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.obj-5 {
+    display: inline-block;  
+}
+
+.box-6 {
+    position: relative;
+}
+
+.obj-6 {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+}
+
+.box-7 {
+    position: relative;
+}
+
+.obj-7 {
+    position: absolute;
+    /* 宽和高必须是固定的*/
+    left: 0;    // left和right必须配对出现来控制水平方向
+    right: 0;
+    top:0;  // top和bottom必须配对出现来控制垂直方向
+    bottom: 0;
+    margin: auto;
+}
+
+.wrap { // 浮动居中的方法需要有这么一个包裹的元素，需要浮动的就是这个元素
+    float: left; // 在这个包裹的元素上进行浮动, 让他自适应内容的宽度
+    position: relative;
+    left: 50%; // 相对定位到父元素宽度一半的地方
+    clear: both;
+}
+
+.obj-8 { // 这才是真正的需要居中的元素
+    position: relative; // 在这个元素上进行相对定位
+    left: -50%;     // 向左偏移本身的一半，正好就居中了
+    white-space: nowrap;
+}
+
+.box-9 {
+    font-size: 300px / 1.14;
+}
+
+.obj-9 {
+    vertical-align: middle; // 这句是必须的
+    zoom: 1;
+    display: inline-block; // 让元素在ie6和ie7中变成inline-block
+    font-size: 12px; // 恢复正常font-size
+}
+
+.box-10 {
+    *font-size: 300px / 1.14; // ie6和7采用这种方式
+    display: table-cell; // IE8, chrome, firefox采用这种方式
+    vertical-align: middle; 
+    text-align: center;
+}
+
+.obj-10 {
+    display: inline-block;
+    *zoom: 1;
+    *display: inline; // 在ie6和7中实现inline
+    *vertical-align: middle; // 在使用font-size方法时是必须的
+    font-size: 12px;
+}
