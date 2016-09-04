@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>canvas动画效果</title>
+    <style type="text/css">
+        body{background-color: #0c1328;position: absolute;left: 0;top: 0;right: 0;bottom: 0;}
+        canvas{margin:0 auto;}
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="1000px" height="500px">您的浏览器不支持Canvas。</canvas>
+    <script type="text/javascript" src="js/particles.js"></script>
+    <script type="text/javascript">
+        // (function() {
+        //     var canvas = {},
+        //         image = {};
+        //     var particles = [];
+        //     // 获取canvas元素
+        //     canvas.obj = document.getElementById('myCanvas');
+
+        //     if (canvas.obj.getContext) {
+        //         // 获取渲染上下文
+        //         canvas.ctx = canvas.obj.getContext('2d');
+        //         // 设置画布的大小为屏幕宽高
+        //         canvas.w = canvas.obj.width = document.body.clientWidth;
+        //         canvas.h = canvas.obj.height = document.body.clientHeight;
+        //         console.log(canvas);
+        //         // 新建一个image对象
+        //         var img = new Image();
+        //         // 图像加载完后
+        //         img.onload = function() {
+        //             // 把图像信息保存在image中
+        //             image.obj = img;
+        //             image.w = img.width;
+        //             image.h = img.height;
+        //             image.x = parseInt(canvas.w / 2 - image.w / 2);
+        //             image.y = 200;
+        //             // 把图像绘制到画布坐标为(100, 100)的地方
+        //             canvas.ctx.drawImage(image.obj, image.x, image.y, image.w, image.h);
+        //             image.imageData = canvas.ctx.getImageData(image.x, image.y, image.w, image.h);
+        //             // 计算出符合要求的元素
+        //             calculate();
+        //             // 计算后绘到画布上
+        //             draw();
+        //         };
+        //         // 设置img的source
+        //         img.src = 'isux.png';
+        //     }
+        //     // 计算并保存坐标
+        //     function calculate() {
+        //         var len = image.imageData.length;
+        //         // 只保存100行，100列的像素值
+        //         var cols = 100,
+        //             rows = 100;
+        //         // 设成150行，100列后的每个单元的宽高
+        //         var s_width = parseInt(image.w / cols);
+        //             s_height = parseInt(image.h / rows);
+        //         var pos = 0; // 数组中的位置
+        //         var par_x, par_y; // 粒子的x, y坐标
+        //         var data = image.imageData.data; // 像素值数组
+        //         for (var i = 0; i < cols; i++) {
+        //             for (var j = 0; j < rows; j++) {
+        //                 // 计算(i, j)在数组中的R的坐标值
+        //                 pos = (j * s_height * image.w + i * s_width) * 4;
+        //                 // 判断像素透明度值是否符合要求
+        //                 if (data[pos + 3] > 100) {
+        //                     var particle = {
+        //                         // x, y值都随机一下
+        //                         x: image.x + i * s_width + (Math.random() - 0.5) * 20,
+        //                         y: image.y + j * s_height + (Math.random() - 0.5) * 20
+        //                     };
+        //                     // 根据图像不同的色值来设定粒子色值
+        //                     if (data[pos + 1] < 175 && data[pos + 2] < 10) {
+        //                         particle.fillStyle = '#ffa900';
+        //                     } else if (data[pos + 1] < 75 && data[pos + 1] > 50) {
+        //                         particle.fillStyle = '#ff4085';
+        //                     } else if (data[pos + 1] < 220 && data[pos + 1] > 190) {
+        //                         particle.fillStyle = '#00cfff';
+        //                     } else if (data[pos + 1] < 195 && data[pos + 1] > 175) {
+        //                         particle.fillStyle = '#9abc1c';
+        //                     }
+        //                     // 符合要求的粒子保存到数组里
+        //                     particles.push(particle);
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     // 绘图案
+        //     function draw() {
+        //         // 清空画布
+        //         canvas.ctx.clearRect(0, 0, canvas.w, canvas.h);
+
+        //         var len = particles.length;
+        //         var curr_particle = null;
+
+        //         for (var i = 0; i < len; i++) {
+        //             curr_particle = particles[i];
+        //             // 设置填充颜色
+        //             canvas.ctx.fillStyle = curr_particle.fillStyle;
+        //             // 绘粒子到画布上
+        //             canvas.ctx.fillRect(curr_particle.x, curr_particle.y, 1, 1);
+        //         }
+        //     }
+        // })();
+
+        /*
+         * parameters
+         * canvasId: 画布id，必填
+         * imgUrl: 纯色图片的路径，可以是jpg或者png，做粒子动画的图案色值应为#000，必填
+         * cols/rows：分别代表图案每一行和每一列显示粒子数，此处需要设定的cols和rows要可被图片width和height整除，必填
+         * startX/startY: 粒子起始位置x,y  
+         * imgX/imgY: 图片左上角坐标，相对canvas左上角的偏移值
+         * delay: 延迟执行动画时间，单位ms
+         * duration: 持续时间，单位ms
+         * fillStyle: 粒子颜色值，可带半透明
+         * particleOffset：粒子偏移值
+         * ease: 缓动函数 提供linear，Quad，Cubic，Quart，Quint，Sine，Expo，Circ，Elastic，Back 包含easeIn,easeOut,easeInOut
+         * interval: 粒子间开始移动间隔
+         */
+        var particles = new Particles({
+            canvasId: 'myCanvas',
+            imgUrl: 'isux.png',
+            cols: 100,
+            rows: 100,
+            startX: 650,
+            startY: 500,
+            imgX: 500,
+            imgY: 130,
+            delay: 100,
+            duration: 2000,
+            interval: 10,
+            fillStyle: '#ffa900',
+            particleOffset: 2,
+            ease: 'easeInOutExpo'
+        });
+        particles.animate();
+    </script>
+</body>
+</html>

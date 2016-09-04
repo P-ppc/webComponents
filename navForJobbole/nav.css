@@ -40,7 +40,7 @@ a {
 .top-nav > .container .nav-menu li a {
   display: block;
   height: 100%;
-  line-height: 35px;
+  line-height: 30px;
   padding: 0 10px;
 }
 .top-nav > .container .nav-menu li:hover a {
