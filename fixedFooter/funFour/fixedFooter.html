@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>fixedFooter</title>
+<style type="text/css">
+* {
+    margin: 0;
+    padding: 0;
+}
+#header {
+    background-color: #ccc;
+}
+#footer {
+    height: 60px;
+    background-color: #fc6;
+    width: 100%;
+}
+</style>
+</head>
+<body>
+<div id="header">Header Section</div>
+<div id="page">Page Section</div>
+<div id="footer">Footer Section</div>
+
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript">
+$(window).bind('load', function() {
+    var footerHeight = 0,
+        footerTop = 0,
+        $footer = $("#footer");
+
+    positionFooter();
+
+    function positionFooter() {
+        // footer高度
+        footerHeight = $footer.height();
+        // footer离屏幕顶部的距离
+        footerTop = ($(window).scrollTop()+$(window).height()-footerHeight)+"px";
+        if (($(document.body).height() + footerHeight) < $(window).height()) {
+            /*$footer.css({
+                position: 'absolute',
+                top: footerTop
+            }); */
+            // 滚动模式
+            $footer.css({
+                position: 'absolute'
+            }).stop().animate({
+                top: footerTop
+            });
+        } else {
+            $footer.css({
+                position: "static"
+            });
+        }
+    }
+    $(window).scroll(positionFooter).resize(positionFooter);
+});
+</script>
+</body>
+</html>

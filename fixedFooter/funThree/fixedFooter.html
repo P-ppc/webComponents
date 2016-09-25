@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>fixedFooter</title>
+<style type="text/css">
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+#container {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -60px; /* margin-bottom的负值等于footer高度 */
+}
+#header {
+    background-color: #ccc;
+}
+.push,
+#footer {
+    height: 60px;
+    clear: both;
+}
+#footer {
+    background-color: #6cf;
+}
+</style>
+</head>
+<body>
+<div id="container">
+    <div id="header">Header Section</div>
+    <div id="page">
+        Page Section
+    </div>
+    <div class="push"><!-- not have any content --></div>
+</div>
+<div id="footer">
+    Footer Section
+</div>
+</body>
+</html>
