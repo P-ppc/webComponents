@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义Radio和Checkbox</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+<div class="row">
+    <p>默认Radio</p>
+    <input type="radio" name="radio1">
+    <br>
+    <input type="radio" name="radio1">
+    <p>默认Checkbox</p>
+    <input type="checkBox" name="">
+    <p>span实现的Radio</p>
+    <label class="custom-radio">
+        <span class="custom-radio-input">
+            <span class="custom-radio-inner"></span>
+            <input type="radio" class="custom-radio-original">
+        </span>
+        <span class="custom-radio-label">
+            Radio
+        </span>
+    </label>
+</div>
+
+<script type="text/javascript" src="jquery-1.9.1.min.js"></script>
+<script type="text/javascript">
+$(function() {
+    $(".custom-radio").click(function(e) {
+        if (e.toElement == $("span.custom-radio-inner")[0]) {
+             var $el = $(this).find(".custom-radio-inner");
+            if ($el.hasClass("is-checked")) {
+                $el.removeClass("is-checked");
+                $(this).find("input.custom-radio-original").attr("checked", false);
+            } else {
+                $el.addClass("is-checked");
+                $(this).find("input.custom-radio-original").attr("checked", true);
+            }
+        }
+    });
+});
+</script>
+</body>
+</html>
