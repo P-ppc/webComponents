@@ -32,6 +32,16 @@
             Radio
         </span>
     </label>
+    <p>span实现的Checkbox</p>
+    <label class="custom-checkbox">
+        <span class="custom-checkbox-input">
+            <span class="custom-checkbox-inner"></span>
+            <input type="checkbox" class="custom-checkbox-original">
+        </span>
+        <span class="custom-checkbox-label">
+            Checkbox
+        </span>
+    </label>
 </div>
 
 <script type="text/javascript" src="jquery-1.9.1.min.js"></script>
@@ -79,9 +89,25 @@ $(function() {
             groupSwitch($(this), name);
         }
     });
-   
+});
+</script>
+<script type="text/javascript">
+$(function() {
+    var checkboxSwitch = function($checkbox) {
+        if ($checkbox.hasClass("is-checked")) {
+            $checkbox.removeClass("is-checked");
+            $checkbox.find("input.custom-checkbox-original").attr("checked", false);
+        } else {
+            $checkbox.addClass("is-checked");
+            $checkbox.find("input.custom-checkbox-original").attr("checked", true);
+        }
+    };
 
-    
+    $(".custom-checkbox").click(function(e) {
+        if (e.toElement === $(this).find("input.custom-checkbox-original")[0]) {
+            checkboxSwitch($(this));
+        }
+    });
 });
 </script>
 </body>
