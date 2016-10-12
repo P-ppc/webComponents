@@ -17,7 +17,16 @@
     <label class="custom-radio">
         <span class="custom-radio-input">
             <span class="custom-radio-inner"></span>
-            <input type="radio" class="custom-radio-original">
+            <input type="radio" class="custom-radio-original" name="group1">
+        </span>
+        <span class="custom-radio-label">
+            Radio
+        </span>
+    </label>
+    <label class="custom-radio">
+        <span class="custom-radio-input">
+            <span class="custom-radio-inner"></span>
+            <input type="radio" class="custom-radio-original" name="group1">
         </span>
         <span class="custom-radio-label">
             Radio
@@ -28,18 +37,51 @@
 <script type="text/javascript" src="jquery-1.9.1.min.js"></script>
 <script type="text/javascript">
 $(function() {
-    $(".custom-radio").click(function(e) {
-        if (e.toElement == $("span.custom-radio-inner")[0]) {
-             var $el = $(this).find(".custom-radio-inner");
-            if ($el.hasClass("is-checked")) {
-                $el.removeClass("is-checked");
-                $(this).find("input.custom-radio-original").attr("checked", false);
-            } else {
-                $el.addClass("is-checked");
-                $(this).find("input.custom-radio-original").attr("checked", true);
+    var open = function($radio) {
+        $radio.addClass("is-checked");
+        $radio.find("input.custom-radio-original").attr("checked", true);
+    };
+
+    var close = function($radio) {
+        $radio.removeClass("is-checked")
+        $radio.find("input.custom-radio-original").attr("checked", false);
+    };
+
+    var radioSwitch = function($radio) {
+        if ($radio.hasClass("is-checked")) {
+            close($radio);
+        } else {
+            open($radio);
+        }
+    };
+
+    // 根据name获取radio
+    var group = function(name) {
+        return $(".custom-radio-original[name="+ name +"]").parent().parent();
+    };
+
+    var groupSwitch = function($el, name) {
+        $radios = group(name);
+        $radios.each(function() {
+            if (!$(this).is($el)) {
+                close($(this));
+            } else { 
+                if (!$(this).hasClass("is-checked")) {
+                    open($(this));
+                }
             }
+        });
+    };
+
+    $(".custom-radio").click(function(e) {
+        if (e.toElement == $(this).find("input.custom-radio-original")[0]) {
+            var name = $(this).find("input.custom-radio-original").attr("name");
+            groupSwitch($(this), name);
         }
     });
+   
+
+    
 });
 </script>
 </body>

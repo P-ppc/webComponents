@@ -25,6 +25,10 @@ p {
     -ms-user-select: none;
 }
 
+.custom-radio {
+    margin-right: 40px;
+}
+
 .custom-radio-input {
     white-space: nowrap;
     outline: none;
@@ -64,12 +68,12 @@ p {
     transition: transform .15s cubic-bezier(.71,-.46,.88,.6),-webkit-transform .15s cubic-bezier(.71,-.46,.88,.6);
 }
 
-.custom-radio-inner.is-checked {
+.custom-radio.is-checked .custom-radio-inner {
     border-color: #20a0ff;
     background: #20a0ff;
 }
 
-.custom-radio-inner.is-checked:after {
+.custom-radio.is-checked .custom-radio-inner:after {
     -webkit-transform: translate(-50%,-50%) scale(1);
     transform: translate(-50%,-50%) scale(1);
 }
