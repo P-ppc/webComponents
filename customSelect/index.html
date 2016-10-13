@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义select下拉选择框</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+<div class="row">
+    <p>默认Select</p>
+    <select>
+        <option>黄金糕</option>
+        <option>黄金糕</option>
+        <option>黄金糕</option>
+    </select>
+    <p>自定义Select</p>
+    <div class="custom-select">
+        <div class="custom-select-input">
+            <input type="text" placeholder="请选择" readonly="readonly" autocomplete="off" class="custom-select-inner">
+            <i class="custom-select-icon el-icon-caret-top"></i>
+        </div> 
+        <div class="custom-select-dropdown">
+            <ul class="custom-select-dropdown-list">
+                <li class="custom-select-dropdown-item">
+                    <span>黄金糕</span>
+                </li>
+                <li class="custom-select-dropdown-item">
+                    <span>黄金糕</span>
+                </li>
+                <li class="custom-select-dropdown-item">
+                    <span>黄金糕</span>
+                </li>
+                <li class="custom-select-dropdown-item">
+                    <span>黄金糕</span>
+                </li>
+                <li class="custom-select-dropdown-item">
+                    <span>黄金糕</span>
+                </li>
+                <li class="custom-select-dropdown-item">
+                    <span>黄金糕</span>
+                </li>
+                <li class="custom-select-dropdown-item">
+                    <span>黄金糕</span>
+                </li>
+                <li class="custom-select-dropdown-item">
+                    <span>黄金糕</span>
+                </li>
+                <li class="custom-select-dropdown-item">
+                    <span>黄金糕</span>
+                </li>
+                <li class="custom-select-dropdown-item">
+                    <span>黄金糕</span>
+                </li>
+                <li class="custom-select-dropdown-item">
+                    <span>黄金糕</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="jquery-1.9.1.min.js"></script>    
+<script type="text/javascript">
+$(function() {
+$(".custom-select").click(function(e) {
+    if (e.target === $(this).find("input.custom-select-inner")[0]) {
+        $(this).addClass("is-selected");
+       
+    } else if ($(e.target).parent().is($(this).find("ul.custom-select-dropdown-list"))) {
+        $(e.target).addClass("select").siblings().removeClass("select");
+        $(this).find(".custom-select-inner").val($(e.target).find("span").text());
+        $(this).removeClass("is-selected");
+    }
+});   
+});
+</script>
+</body>
+</html>
