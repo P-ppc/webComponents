@@ -111,8 +111,7 @@ p {
 }
 
 .custom-select-dropdown {
-    display: none;
-
+    opacity: 0;
     width: 100%;
     margin: 5px 0;
     position: absolute;
@@ -121,10 +120,15 @@ p {
     border-radius: 2px;
     background: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    
+    transform-origin: center top;
+    transform: scaleY(0.0);
+    transition: transform .3s cubic-bezier(.23,1,.32,1) .1s,opacity .3s cubic-bezier(.23,1,.32,1) .1s,-webkit-transform .3s cubic-bezier(.23,1,.32,1) .1s;
 }
 
 .custom-select.is-selected .custom-select-dropdown {
-    display: block;
+    opacity: 1;
+    transform: scaleY(1.0);
 }
 
 .custom-select-dropdown-list {

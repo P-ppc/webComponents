@@ -65,8 +65,7 @@
 $(function() {
 $(".custom-select").click(function(e) {
     if (e.target === $(this).find("input.custom-select-inner")[0]) {
-        $(this).addClass("is-selected");
-       
+        $(this).toggleClass("is-selected");
     } else if ($(e.target).parent().is($(this).find("ul.custom-select-dropdown-list"))) {
         $(e.target).addClass("select").siblings().removeClass("select");
         $(this).find(".custom-select-inner").val($(e.target).find("span").text());
