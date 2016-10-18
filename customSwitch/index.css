@@ -76,7 +76,7 @@ select {
 }
 
 /* 简单背景过渡 */
-.custom-switch-anim-bg {
+.custom-switch.custom-switch-anim-bg {
     transition: background-color ease 0.4s;
 }
 
@@ -88,4 +88,19 @@ select {
 
 .custom-switch.custom-switch-anim-bg:before {
     transition: left .3s;
+}
+
+/* 过渡效果 */
+.custom-switch.custom-switch-anim {
+    transition: border cubic-bezier(0, 0, 0, 1) .4s, box-shadow cubic-bezier(0, 0, 0, 1) .4s;
+}
+
+.custom-switch.custom-switch-anim:before {
+    transition: left .3s;
+}
+
+.custom-switch.custom-switch-anim:checked {
+    box-shadow: #64bd63 0 0 0 16px inset;
+    background-color: #64bd63;
+    transition: border ease #64bd63, box-shadow ease .4s, background-color ease 1.2s;
 }
