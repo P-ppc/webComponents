@@ -74,3 +74,18 @@ select {
 .custom-switch:checked:before {
     left: 21px;
 }
+
+/* 简单背景过渡 */
+.custom-switch-anim-bg {
+    transition: background-color ease 0.4s;
+}
+
+.custom-switch.custom-switch-anim-bg:checked {
+    box-shadow: #dfdfdf 0 0 0 0 inset;
+    background-color: #64bd63;
+    transition: border-color 0.4s, background-color ease 0.4s;
+}
+
+.custom-switch.custom-switch-anim-bg:before {
+    transition: left .3s;
+}
