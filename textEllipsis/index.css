@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    padding: 10px;
+    padding-left: 0;
+}
+
+.row {
+    margin: auto;
+    width: 90%;
+    padding: 20px;
+}
+
+.text-ellipsis {
+    /* 超过部分隐藏 */
+    overflow: hidden; 
+    /* 文字超过显示省略标记 clip为阶段 */
+    text-overflow: ellipsis; 
+    /* 强制不换行 */
+    white-space: nowrap;
+}
+
+/* 支持多行的实现方式: 只适用Webkit和移动端 */
+.webkit-text-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    /* webkit特定方式 */
+    /* 必须: 弹性伸缩盒子模型 */
+    display: -webkit-box;
+    /* 必须: 设置显示的行数 */
+    -webkit-line-clamp: 3;
+    /* 必须: 设置伸缩盒子对象的子元素的排列方式 */
+    -webkit-box-orient: vertical;
+}
+
+/* 兼容方式: 不支持IE6/7(可通过其他元素实现支持) */
+.compatible-text-ellipsis {
+    position: relative;
+    display: inline-block;
+    line-height: 1.4em;
+    /* height为line-height的3倍 */
+    height: 4.2em;
+    /* 超过隐藏 */
+    overflow: hidden;
+}
+
+.compatible-text-ellipsis:after {
+    content: "...";
+    display: inline-block;
+    width: 1.5em;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #fff;
+}
