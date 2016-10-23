@@ -1,0 +1,62 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.row {
+    margin: auto;
+    width: 90%;
+    padding: 20px;
+}
+
+p {
+    padding: 10px;
+    padding-left: 0;
+}
+
+.text-container {
+    width: 100%;
+    height: 200px;
+    overflow: auto;
+}
+
+.text-container p {
+    width: 120%;
+}
+
+/* 滚动条整体 */
+.custom-scroll::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+/* 滚动条两端按钮 */
+.custom-scroll::-webkit-scrollbar-button {
+    background: blue;
+}
+
+/* 滚动条外层轨道 */
+.custom-scroll::-webkit-scrollbar-track {
+     background: #FF66D5;
+}
+
+/* 内层轨道，滚动条中间部分 */
+.custom-scroll::-webkit-scrollbar-track-piece {
+    background: blue;
+}
+
+/* 滚动条拖动部分 */
+.custom-scroll::-webkit-scrollbar-thumb {
+    background:#FFA711;
+    border-radius:4px;
+}
+
+/* resize大小部分 */
+.custom-scroll::-webkit-resizer {
+    background: #ccc;
+}
+
+/* 滚动条角落 */
+.custom-scroll::-webkit-scrollbar-corner {
+    background: green;
+}
