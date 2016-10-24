@@ -79,7 +79,7 @@
 $(function() {
     var _list = {};
     _list.list = [];
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 100; i++) {
         _list.list.push(i);
     }
     var gridBodyHtml = template("gridBodyTemplate", _list);
@@ -91,15 +91,19 @@ $(function() {
     var bodyHeight = $(".grid").height() - headerHeight;
     var bodyWidth = $(".grid").width();
     $(".grid-body").css({
-        "height": bodyHeight < currentHeight ? bodyHeight : currentHeight,
-        "width": bodyWidth
+        height: bodyHeight < currentHeight ? bodyHeight : currentHeight,
+        width: bodyWidth
     });
     // 计算grid-body .free的宽度
     var freezeWdith = 36;
     $(".grid-body .free").css({
-        "height": bodyHeight < currentHeight ? bodyHeight : currentHeight,
-        "width": bodyWidth - freezeWdith
+        height: bodyHeight < currentHeight ? bodyHeight : currentHeight,
+        width: bodyWidth - freezeWdith
     });
+    // 计算grid-body .freeze的高度
+    $(".grid-body .freeze").css({
+        height: bodyHeight < currentHeight ? bodyHeight : currentHeight
+    })
     // 计算.grid-row的宽度
     var scrollWidth = $(".grid-body .free")[0].scrollWidth;
     $(".grid-body .free .grid-row").width(scrollWidth);
@@ -112,6 +116,8 @@ $(function() {
         // 基础的header跟随grid-body滚动
         var currentX = $(this).scrollLeft();
         $(".grid-header .free .grid-row").css("left", "-" + currentX + "px");
+        var currentY = $(this).scrollTop();
+        $(".grid-body .freeze").css("top", "-" + currentY + "px");
     });
 });
 </script>

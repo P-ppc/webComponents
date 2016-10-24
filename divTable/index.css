@@ -36,16 +36,17 @@ p {
 .grid-header {
     color: #e2e2e2;
     background: #505050;
+    position: relative;
 }
 
 .grid-header .freeze {
     position: absolute;
-    z-index: 1000;
 }
 
 .grid-header .free {
-    position: relative;
-    left: 36px;
+    position: relative; 
+    /* 36 + 1: 为了Border*/
+    left: 37px;
     overflow: hidden;
 }
 
@@ -55,16 +56,17 @@ p {
 
 .grid-body {
     overflow: hidden;
+    position: relative;
 }
 
 .grid-body .freeze {
     position: absolute;
-    z-index: 1000;
 }
 
 .grid-body .free {
     position: relative;
-    left: 36px;
+    /* 36 + 1: 为了Border*/
+    left: 37px;
     overflow: auto;
 }
 
