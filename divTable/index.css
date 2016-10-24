@@ -1,0 +1,103 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: 'open sans', 'Microsoft Yahei', sans-serif;
+    font-size: 12px;
+    background-color: #fff;
+}
+
+.row {
+    margin: auto;
+    width: 90%;
+    padding: 20px;
+}
+
+p {
+    padding: 10px;
+    padding-left: 0;
+    font-size: 16px;
+}
+
+.table-container {
+    width: 600px; 
+    height: 600px; 
+    overflow: hidden;
+}
+
+.grid {
+    overflow: hidden;
+    width: 600px; 
+    height: 600px; 
+}
+
+.grid-header {
+    color: #e2e2e2;
+    background: #505050;
+}
+
+.grid-body {
+    overflow: auto;
+}
+
+.grid-row {
+    height: 38px;
+    line-height: 38px;
+     /* 不换行 */
+    white-space: nowrap;
+}
+
+.grid-item {
+    display: inline-block;
+    text-indent: 20px;
+    vertical-align: middle;
+    height: 100%;
+    text-indent: 10px;
+    border-right: #d4d4d4 dotted 1px;
+}
+
+.grid-item.check {
+    width: 36px;
+}
+
+.grid-item.name {
+    width: 150px;
+}
+
+.grid-item.no {
+    width: 120px;
+}
+
+.grid-item.gender {
+    width: 50px;
+}
+
+.grid-item.property {
+    width: 120px;
+}
+
+.grid-item.position {
+    width: 120px;
+}
+
+.grid-item.status {
+    width: 150px;
+}
+
+.grid-item.region {
+    width: 150px;
+}
+
+.grid-item.role {
+    width: 150px;
+}
+
+.grid-item.managementUnit {
+    width: 100px;
+}
+
+.grid-item.GID {
+    width: 100px;
+}
