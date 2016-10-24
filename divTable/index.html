@@ -8,12 +8,17 @@
 <body>
 <div class="row" style="width: 600px;">
     <p>div表格</p>
-    <!-- <div class="table-container"> -->
-        <div class="grid">
-            <div class="grid-header">
+    
+    <div class="grid">
+        <div class="grid-header">
+            <div class="freeze">
                 <div class="grid-row">
-                    <div class="grid-item check"></div
-                    ><div class="grid-item name">姓名</div
+                   <div class="grid-item check"></div>
+                </div>
+            </div>
+            <div class="free">
+                <div class="grid-row">
+                    <div class="grid-item name">姓名</div
                     ><div class="grid-item no">编号</div
                     ><div class="grid-item gender">性别</div
                     ><div class="grid-item property">员工性质</div
@@ -25,32 +30,47 @@
                     ><div class="grid-item GID">员工GID编号</div>
                 </div>
             </div>
-            <div class="grid-body">
-            </div>
         </div>
-    <!-- </div> -->
+        <div class="grid-body">
+        </div>
+    </div>
+    
 </div>
 <!-- template -->
 <script type="text/html" id="gridBodyTemplate">
-    {{each list as value index}}
-        {{if index % 2 == 0}}
-            <div class="grid-row clearfix odd"
-        {{else}}
-            <div class="grid-row clearfix even"
-        {{/if}}
-            ><div class="grid-item check"></div
-            ><div class="grid-item name">姓名</div
-            ><div class="grid-item no">编号</div
-            ><div class="grid-item gender">性别</div
-            ><div class="grid-item property">员工性质</div
-            ><div class="grid-item position">职位</div
-            ><div class="grid-item status">在职状态</div
-            ><div class="grid-item region">地区</div
-            ><div class="grid-item role">角色</div
-            ><div class="grid-item managementUnit">管理单位</div
-            ><div class="grid-item GID">员工GID编号{{index}}</div>
-        </div>
-    {{/each}}
+    <div class="freeze">
+        {{each list as value index}}
+            {{if index % 2 == 0}}
+                <div class="grid-row odd"
+            {{else}}
+                <div class="grid-row even"
+            {{/if}}
+                ><div class="grid-item check"></div>
+                <!-- ><div class="grid-item check"></div> -->
+            </div>
+        {{/each}}
+    </div>
+    <div class="free">
+        {{each list as value index}}
+            {{if index % 2 == 0}}
+                <div class="grid-row odd"
+            {{else}}
+                <div class="grid-row even"
+            {{/if}}
+                ><div class="grid-item name">姓名</div
+                ><div class="grid-item no">编号</div
+                ><div class="grid-item gender">性别</div
+                ><div class="grid-item property">员工性质</div
+                ><div class="grid-item position">职位</div
+                ><div class="grid-item status">在职状态</div
+                ><div class="grid-item region">地区</div
+                ><div class="grid-item role">角色</div
+                ><div class="grid-item managementUnit">管理单位</div
+                ><div class="grid-item GID">员工GID编号{{index}}</div>
+            </div>
+        {{/each}}
+    </div>
+    
 </script>
 <script type="text/javascript" src="jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="template.js"></script>
@@ -74,18 +94,24 @@ $(function() {
         "height": bodyHeight < currentHeight ? bodyHeight : currentHeight,
         "width": bodyWidth
     });
+    // 计算grid-body .free的宽度
+    var freezeWdith = 36;
+    $(".grid-body .free").css({
+        "height": bodyHeight < currentHeight ? bodyHeight : currentHeight,
+        "width": bodyWidth - freezeWdith
+    });
     // 计算.grid-row的宽度
-    var scrollWidth = $(".grid-body")[0].scrollWidth;
-    $(".grid-body .grid-row").width(scrollWidth + "px");
+    var scrollWidth = $(".grid-body .free")[0].scrollWidth;
+    $(".grid-body .free .grid-row").width(scrollWidth);
 });
 </script>
 <!-- 滚动事件处理 -->
 <script type="text/javascript">
 $(function() {
-    $(".grid-body").scroll(function() {
+    $(".grid-body .free").scroll(function() {
         // 基础的header跟随grid-body滚动
         var currentX = $(this).scrollLeft();
-        $(".grid-header .grid-row").css("left", "-" + currentX + "px");
+        $(".grid-header .free .grid-row").css("left", "-" + currentX + "px");
     });
 });
 </script>

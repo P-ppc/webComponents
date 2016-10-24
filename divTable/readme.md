@@ -3,3 +3,4 @@
     = 固定列头
     = colspan和rowspan实现
     = 动态宽度(min-width)
+    = jquery插件化

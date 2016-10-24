@@ -38,7 +38,33 @@ p {
     background: #505050;
 }
 
+.grid-header .freeze {
+    position: absolute;
+    z-index: 1000;
+}
+
+.grid-header .free {
+    position: relative;
+    left: 36px;
+    overflow: hidden;
+}
+
+.grid-header .free .grid-row {
+    position: relative;
+}
+
 .grid-body {
+    overflow: hidden;
+}
+
+.grid-body .freeze {
+    position: absolute;
+    z-index: 1000;
+}
+
+.grid-body .free {
+    position: relative;
+    left: 36px;
     overflow: auto;
 }
 
@@ -49,8 +75,12 @@ p {
     white-space: nowrap;
 }
 
-.grid-header .grid-row {
-    position: relative;
+.grid-row.even {
+    background: #f9f9f9;
+}
+
+.grid-row.odd {
+    background: #fff;
 }
 
 .grid-item {
