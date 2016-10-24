@@ -49,6 +49,10 @@ p {
     white-space: nowrap;
 }
 
+.grid-header .grid-row {
+    position: relative;
+}
+
 .grid-item {
     display: inline-block;
     text-indent: 20px;

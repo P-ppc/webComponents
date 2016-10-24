@@ -66,8 +66,9 @@ $(function() {
     $(".grid-body").html(gridBodyHtml);
 
     // 计算grid-body的宽度
+    var headerHeight = 38;
     var currentHeight = $(".grid-body").height();
-    var bodyHeight = $(".grid").height() - 38; // 38为header的高
+    var bodyHeight = $(".grid").height() - headerHeight;
     var bodyWidth = $(".grid").width();
     $(".grid-body").css({
         "height": bodyHeight < currentHeight ? bodyHeight : currentHeight,
@@ -76,6 +77,16 @@ $(function() {
     // 计算.grid-row的宽度
     var scrollWidth = $(".grid-body")[0].scrollWidth;
     $(".grid-body .grid-row").width(scrollWidth + "px");
+});
+</script>
+<!-- 滚动事件处理 -->
+<script type="text/javascript">
+$(function() {
+    $(".grid-body").scroll(function() {
+        // 基础的header跟随grid-body滚动
+        var currentX = $(this).scrollLeft();
+        $(".grid-header .grid-row").css("left", "-" + currentX + "px");
+    });
 });
 </script>
 </body>
