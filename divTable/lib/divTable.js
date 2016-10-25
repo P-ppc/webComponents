@@ -1,8 +1,6 @@
 // 利用div实现table
 // 依赖jQuery, artTemplate.js
 // 暂不支持rowspan和colspan, 多行header
-// FIXME 动态计算freezeWidth
-// TODO 新增和删除时重新计算.grid-body高度
 // TODO 修改, 修改时重新计算.grid-body的宽度
 
 (function($) {
@@ -19,8 +17,10 @@
     var freezeColumnCount = 0;
     // min-width映射
     var minWidthMap = {};
-    //  固定列宽度
+    // 固定列宽度
     var freezeWidth = 0;
+    // 初始高度
+    var initHeight = 0;
 
     // 渲染header
     var _renderHeader = function(target, data) {
@@ -78,29 +78,42 @@
     };
 
     // 计算tbale属性
-    var _calcuTable = function() {
-        // 宽度和高度
-        
-        // 计算grid-body的宽度
+    // 计算.grid-body，.grid-body .free和.grid-body .freeze高度
+    var _calcuHeight = function(inputHeight) {
+        // 输入参数高度
+        inputHeight = inputHeight || 0;
         var headerHeight = $(".grid-header").height();
-        var currentHeight = $(".grid-body").height();
+        if (initHeight == 0) {
+            initHeight = $(".grid-body").height();
+        } 
+        initHeight += inputHeight;
         var bodyHeight = $(".grid").height() - headerHeight;
-        var bodyWidth = $(".grid").width();
+        var validHeight = bodyHeight < initHeight ? bodyHeight : initHeight;
         $(".grid-body").css({
-            height: bodyHeight < currentHeight ? bodyHeight : currentHeight,
+            height: validHeight
+        }).find(".freeze").css({
+            height: validHeight
+        }).end().find(".free").css({
+            height: validHeight
+        });
+    };
+
+    // 计算宽度
+    var _calcuWidth = function() {
+        // 清除原来宽度
+        var bodyWidth = $(".grid").width();
+        freezeWdith = $(".grid-body .freeze").width();
+        $(".grid-body").css({
             width: bodyWidth
+        }).find(".freeze").css({
+            width: freezeWdith
+        }).end().find(".free").css({
+            width: bodyWidth - freezeWdith
         });
-        // 计算grid-body .free的宽度
-        freezeWidth = $(".grid-body .freeze").width();
-        $(".grid-body .free").css({
-            height: bodyHeight < currentHeight ? bodyHeight : currentHeight,
-            width: bodyWidth - freezeWidth
-        });
-        // 计算grid-body .freeze的高度
-        $(".grid-body .freeze").css({
-            height: bodyHeight < currentHeight ? bodyHeight : currentHeight
-        });
-        
+    };
+
+    // 宽度适配
+    var _widthAdapt = function() {
         // 计算.grid-row的宽度
         var scrollWidth = $(".grid-body .free")[0].scrollWidth;
         $(".grid-body .free .grid-row").width(scrollWidth);
@@ -118,11 +131,13 @@
             });
             $items.width(maxWidth);
         });
+    };
 
+    // .free 左位移
+    var _leftOffset = function() {
         freezeWidth = $(".grid-body .freeze").width();
         $(".grid-header .free").css('left', freezeWidth);
         $(".grid-body .free").css('left', freezeWidth);
-
     };
 
     // 渲染odd和even属性
@@ -171,34 +186,23 @@
 
     // 删除指定行
     var _deleteRow = function(index) {
+        var height = $(".grid-row[data-index=" + index + "]").height();
         $(".grid-row[data-index=" + index + "]").remove();
-        // TODO 重算grid-body高度
-        var headerHeight = $(".grid-header").height();
-        var currentHeight = $(".grid-body").height();
-        var bodyHeight = $(".grid").height() - headerHeight;
-        var bodyWidth = $(".grid").width();
-        $(".grid-body").css({
-            height: bodyHeight < currentHeight ? bodyHeight : currentHeight,
-            width: bodyWidth
-        });
-        // 计算grid-body .free的宽度
-        var freezeWdith = $(".grid-body .freeze").width();
-        $(".grid-body .free").css({
-            height: bodyHeight < currentHeight ? bodyHeight : currentHeight,
-            width: bodyWidth - freezeWdith
-        });
-        // 计算grid-body .freeze的高度
-        $(".grid-body .freeze").css({
-            height: bodyHeight < currentHeight ? bodyHeight : currentHeight
-        });
+        _calcuHeight(-height);
         // 重算odd和even
         _renderOdd();
     }    
 
     // 删除选中行
     var _deleteSelectedRow = function() {
+        var height = $(".grid-row.selected").height();
         $(".grid-row.selected").remove();
+        _calcuHeight(-height);
+        // 重算odd和even
+        _renderOdd();
     }
+
+
 
     $.fn.divTable = function(options) {
         var options = $.extend({}, $.fn.divTable.defaults, options);
@@ -210,7 +214,10 @@
         _renderBody(this, data);
 
         // calcuTable
-        _calcuTable();
+        _calcuHeight();
+        _calcuWidth();
+        _widthAdapt();
+        _leftOffset();
 
         _renderOdd();
     
