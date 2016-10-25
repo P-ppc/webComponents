@@ -75,6 +75,14 @@ p {
     background: #fff;
 }
 
+.grid-body .grid-row.hover {
+    background: #f0f0f0;
+}
+
+.grid-body .grid-row.selected {
+    background: #dffbcc;
+}
+
 .grid-item {
     display: inline-block;
     vertical-align: middle;
