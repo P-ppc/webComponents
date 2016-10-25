@@ -45,8 +45,6 @@
         $headerFree.append($headerFreeGridRow);
         $header.append($headerFreeze).append($headerFree);
         $(target).append($header);
-        freezeWidth = $headerFreeze.width();
-        $headerFree.css('left', freezeWidth);
     };
 
     // 渲染body
@@ -77,11 +75,12 @@
 
         $body.append($bodyFreeze).append($bodyFree);
         $(target).append($body);
-        $bodyFree.css('left', freezeWidth);
     };
 
     // 计算tbale属性
     var _calcuTable = function() {
+        // 宽度和高度
+        
         // 计算grid-body的宽度
         var headerHeight = $(".grid-header").height();
         var currentHeight = $(".grid-body").height();
@@ -92,10 +91,10 @@
             width: bodyWidth
         });
         // 计算grid-body .free的宽度
-        var freezeWdith = $(".grid-body .freeze").width();
+        freezeWidth = $(".grid-body .freeze").width();
         $(".grid-body .free").css({
             height: bodyHeight < currentHeight ? bodyHeight : currentHeight,
-            width: bodyWidth - freezeWdith
+            width: bodyWidth - freezeWidth
         });
         // 计算grid-body .freeze的高度
         $(".grid-body .freeze").css({
@@ -119,6 +118,11 @@
             });
             $items.width(maxWidth);
         });
+
+        freezeWidth = $(".grid-body .freeze").width();
+        $(".grid-header .free").css('left', freezeWidth);
+        $(".grid-body .free").css('left', freezeWidth);
+
     };
 
     // 渲染odd和even属性
@@ -191,6 +195,11 @@
         _renderOdd();
     }    
 
+    // 删除选中行
+    var _deleteSelectedRow = function() {
+        $(".grid-row.selected").remove();
+    }
+
     $.fn.divTable = function(options) {
         var options = $.extend({}, $.fn.divTable.defaults, options);
 
@@ -225,6 +234,10 @@
         // 删除某行数据
         divTableDelete: function(index) {
            _deleteRow(index);
+        },
+        // 删除选中行
+        divTableDeleteSelected: function() {
+            _deleteSelectedRow();
         }
     });
     // 默认参数
