@@ -38,9 +38,7 @@ p {
 }
 
 .grid-header .free {
-    position: relative; 
-    /* 36 + 1: 为了Border*/
-    left: 36px;
+    position: relative;
     overflow: hidden;
 }
 
@@ -59,8 +57,6 @@ p {
 
 .grid-body .free {
     position: relative;
-    /* 36 + 1: 为了Border*/
-    left: 36px;
     overflow: auto;
 }
 

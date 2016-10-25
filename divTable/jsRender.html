@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>该页面通过divTable.js进行渲染</title>
+    <link rel="stylesheet" type="text/css" href="divTable.css">
+</head>
+<body>
+<div class="row" style="width: 600px;">
+    <p>divTable渲染表格</p>
+    <div class="grid">
+    </div>
+</div>
+<script type="text/javascript" src="jquery-1.9.1.min.js"></script>    
+<script type="text/javascript" src="template.js"></script>
+<script type="text/javascript" src="divTable.js"></script>
+<script type="text/javascript">
+$(function() {
+    var options = {
+        headers: [
+            {
+                property: "check",
+                text: "",
+                minWidth: 36,
+                type: "freeze"
+            },
+            {
+                property: "more",
+                text: "更多固定列",
+                minWidth: 100,
+                type: "freeze"
+            },
+            {
+                property: "name",
+                text: "姓名",
+                minWidth: 100
+            },
+            {
+                property: "no",
+                text: "编号",
+                minWidth: 100
+            },
+            {
+                property: "gender",
+                text: "性别",
+                minWidth: 50
+            },
+            {
+                property: "property",
+                text: "员工性质",
+                minWidth: 160
+            },
+            {
+                property: "position",
+                text: "职位",
+                minWidth: 140
+            },
+            {
+                property: "status",
+                text: "在职状态",
+                minWidth: 140
+            },
+            {
+                property: "region",
+                text: "地区",
+                minWidth: 100
+            },
+            {
+                property: "role",
+                text: "角色",
+                minWidth: 100
+            },
+            {
+                property: "managementUnit",
+                text: "管理单位",
+                minWidth: 160
+            },
+            {
+                property: "GID",
+                text: "员工GID编号",
+                minWidth: 160
+            }
+        ],
+        data: []
+    };
+
+    var dataItem = {
+        check: "",
+        more: "更多固定列",
+        name: "姓名",
+        no: "编号",
+        gender: "性别",
+        property: "员工性质",
+        position: "职位",
+        status: "在职状态",
+        region: "地区",
+        role: "角色",
+        managementUnit: "管理单位",
+        GID: "员工GID编号"
+    };
+
+    for (i = 0; i < 20; i++) {
+        options.data.push(dataItem);
+    }
+
+    $('.grid').divTable(options);
+});
+</script>
+</body>
+</html>

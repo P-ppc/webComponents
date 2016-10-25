@@ -3,5 +3,6 @@
     2. 固定列头 √
     3. 动态宽度(min-width) √
     4. colspan和rowspan实现 
-    5. jquery插件化
+    5. jquery插件化 √
     6. hover
+    7. 重绘和数据变化
