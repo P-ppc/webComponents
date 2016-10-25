@@ -91,14 +91,22 @@
             var scrollWidth = $(".grid-body .free")[0].scrollWidth;
             $(".grid-body .free .grid-row").width(scrollWidth);
             // 计算每个grid-item的宽度, 通过class标记
-            // var $columnItems = $(".grid-item.property");
-            // var maxWidth = 0;
-            // $columnItems.each(function() {
-            //     if ($(this).outerWidth() > maxWidth) {
-            //         maxWidth = $(this).outerWidth();
-            //     }
-            // });
-            // $columnItems.width(maxWidth);
+            var $columnItems = $(".grid-header .grid-item");
+            $columnItems.each(function() {
+                var classes = $(this).attr("class").split(" ");
+                var classString = '.' + classes.join(".");
+                var $items = $(classString);
+                var maxWidth = 0;
+                $items.each(function() {
+                    if ($(this).width() > maxWidth) {
+                        maxWidth = $(this).width();
+                    }
+                });
+                $items.width(maxWidth);
+            });
+            // render odd和even
+            $(".grid-body .grid-row:nth-child(even)").addClass("even");
+            $(".grid-body .grid-row:nth-child(odd)").addClass("odd");
         };
         initTable();
         // 委托滚动事件
