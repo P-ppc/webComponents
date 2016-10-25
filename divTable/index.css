@@ -46,7 +46,7 @@ p {
 .grid-header .free {
     position: relative; 
     /* 36 + 1: 为了Border*/
-    left: 37px;
+    left: 36px;
     overflow: hidden;
 }
 
@@ -66,7 +66,7 @@ p {
 .grid-body .free {
     position: relative;
     /* 36 + 1: 为了Border*/
-    left: 37px;
+    left: 36px;
     overflow: auto;
 }
 
@@ -87,53 +87,53 @@ p {
 
 .grid-item {
     display: inline-block;
-    text-indent: 20px;
     vertical-align: middle;
     height: 100%;
-    text-indent: 10px;
+    padding: 0 10px;
+    box-sizing: border-box;
     border-right: #d4d4d4 dotted 1px;
 }
 
 .grid-item.check {
-    width: 36px;
+    min-width: 36px;
 }
 
 .grid-item.name {
-    width: 150px;
+    min-width: 150px;
 }
 
 .grid-item.no {
-    width: 120px;
+    min-width: 120px;
 }
 
 .grid-item.gender {
-    width: 50px;
+    min-width: 50px;
 }
 
 .grid-item.property {
-    width: 120px;
+    min-width: 120px;
 }
 
 .grid-item.position {
-    width: 120px;
+    min-width: 120px;
 }
 
 .grid-item.status {
-    width: 150px;
+    min-width: 150px;
 }
 
 .grid-item.region {
-    width: 150px;
+    min-width: 150px;
 }
 
 .grid-item.role {
-    width: 150px;
+    min-width: 150px;
 }
 
 .grid-item.managementUnit {
-    width: 100px;
+    min-width: 100px;
 }
 
 .grid-item.GID {
-    width: 100px;
+    min-width: 100px;
 }

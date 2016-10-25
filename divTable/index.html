@@ -60,7 +60,7 @@
                 ><div class="grid-item name">姓名</div
                 ><div class="grid-item no">编号</div
                 ><div class="grid-item gender">性别</div
-                ><div class="grid-item property">员工性质</div
+                ><div class="grid-item property">员工性质xxxxxxxxxxxxxxxxx</div
                 ><div class="grid-item position">职位</div
                 ><div class="grid-item status">在职状态</div
                 ><div class="grid-item region">地区</div
@@ -84,29 +84,41 @@ $(function() {
     }
     var gridBodyHtml = template("gridBodyTemplate", _list);
     $(".grid-body").html(gridBodyHtml);
-
-    // 计算grid-body的宽度
-    var headerHeight = 38;
-    var currentHeight = $(".grid-body").height();
-    var bodyHeight = $(".grid").height() - headerHeight;
-    var bodyWidth = $(".grid").width();
-    $(".grid-body").css({
-        height: bodyHeight < currentHeight ? bodyHeight : currentHeight,
-        width: bodyWidth
-    });
-    // 计算grid-body .free的宽度
-    var freezeWdith = 36;
-    $(".grid-body .free").css({
-        height: bodyHeight < currentHeight ? bodyHeight : currentHeight,
-        width: bodyWidth - freezeWdith
-    });
-    // 计算grid-body .freeze的高度
-    $(".grid-body .freeze").css({
-        height: bodyHeight < currentHeight ? bodyHeight : currentHeight
-    })
-    // 计算.grid-row的宽度
-    var scrollWidth = $(".grid-body .free")[0].scrollWidth;
-    $(".grid-body .free .grid-row").width(scrollWidth);
+    var initTable = function() {
+        // 计算grid-body的宽度
+        var headerHeight = 38;
+        var currentHeight = $(".grid-body").height();
+        var bodyHeight = $(".grid").height() - headerHeight;
+        var bodyWidth = $(".grid").width();
+        $(".grid-body").css({
+            height: bodyHeight < currentHeight ? bodyHeight : currentHeight,
+            width: bodyWidth
+        });
+        // 计算grid-body .free的宽度
+        var freezeWdith = 36;
+        $(".grid-body .free").css({
+            height: bodyHeight < currentHeight ? bodyHeight : currentHeight,
+            width: bodyWidth - freezeWdith
+        });
+        // 计算grid-body .freeze的高度
+        $(".grid-body .freeze").css({
+            height: bodyHeight < currentHeight ? bodyHeight : currentHeight
+        });
+        
+        // 计算.grid-row的宽度
+        var scrollWidth = $(".grid-body .free")[0].scrollWidth;
+        $(".grid-body .free .grid-row").width(scrollWidth);
+        // 计算每个grid-item的宽度, 通过class标记
+        var $columnItems = $(".grid-item.property");
+        var maxWidth = 0;
+        $columnItems.each(function() {
+            if ($(this).outerWidth() > maxWidth) {
+                maxWidth = $(this).outerWidth();
+            }
+        });
+        $columnItems.width(maxWidth);
+    };
+    initTable();
 });
 </script>
 <!-- 滚动事件处理 -->
