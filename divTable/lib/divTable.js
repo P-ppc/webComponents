@@ -31,10 +31,7 @@
 
         $.each(data, function(index, item) {
             var $headerItem = $gridItem.clone();
-            $headerItem.text(item.text).css({
-                "min-width": item.minWidth,
-                "max-width": item.maxWidth
-            }).attr("data-field", item.property);
+            $headerItem.text(item.text).attr("data-field", item.property);
             minWidthMap[item.property] = item.minWidth;
             maxWidthMap[item.property] = item.maxWidth;
             if (item.type && item.type == 'freeze') {
@@ -63,10 +60,7 @@
             var $bodyFreeGridRow = $gridRow.clone();
             $.each(item, function(innerIndex, innerValue) {
                 var $bodyItem = $gridItem.clone();
-                $bodyItem.text(innerValue).css({
-                    "min-width": minWidthMap[innerIndex],
-                    "max-width": maxWidthMap[innerIndex]
-                }).attr("data-field", innerIndex);
+                $bodyItem.text(innerValue).attr("data-field", innerIndex);
                 if (_freezeColumnCount > 0) {
                     $bodyFreezeGridRow.append($bodyItem);
                     _freezeColumnCount -= 1;
@@ -126,22 +120,34 @@
         // 重置宽度
         $(".grid").find(".grid-item").css("width", "auto")
             .end().find(".grid-body .free .grid-row").css("width", "auto");
-        // 计算.grid-row的宽度
-        var scrollWidth = $(".grid-body .free")[0].scrollWidth;
-        $(".grid-body .free .grid-row").width(scrollWidth);
+
         // 计算每个grid-item的宽度, 通过data-field标记
         var $columnItems = $(".grid-header .grid-item");
         $columnItems.each(function() {
             var key = $(this).attr("data-field");
             var $items = $(".grid-item[data-field=" + key + "]");
-            var maxWidth = 0;
+            var width = 0;
             $items.each(function() {
-                if ($(this).width() > maxWidth) {
-                    maxWidth = $(this).width();
+                if ($(this).outerWidth() > width) {
+                    width = $(this).outerWidth();
                 }
             });
-            $items.width(maxWidth);
+            var minWidth = minWidthMap[key] || 0;
+            var maxWidth = maxWidthMap[key] || 10000;
+            var validWidth;
+            if (minWidth > width) {
+                validWidth = minWidth;
+            } else if (maxWidth < width) {
+                validWidth = maxWidth;
+            } else {
+                validWidth = width;
+            }
+
+            $items.outerWidth(validWidth);
         });
+        // 计算.grid-row的宽度
+        var scrollWidth = $(".grid-body .free")[0].scrollWidth;
+        $(".grid-body .free .grid-row").width(scrollWidth);
     };
 
     // .free 左位移
