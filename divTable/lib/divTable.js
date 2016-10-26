@@ -1,7 +1,6 @@
 // 利用div实现table
-// 依赖jQuery, artTemplate.js
+// 依赖jQuery
 // 暂不支持rowspan和colspan, 多行header
-// TODO 修改, 修改时重新计算.grid-body/.grid-header, .grid-body/.grid-header .freeze, .grid-body/.grid-header .free的宽度以及left offset
 // TODO 支持多列表头
 // TODO 支持colspan, rowspan
 // TODO 支持maxWidth
@@ -23,8 +22,6 @@
     var minWidthMap = {};
     // 固定列宽度
     var freezeWidth = 0;
-    // 初始高度
-    var initHeight = 0;
 
     // 渲染header
     var _renderHeader = function(target, data) {
@@ -83,16 +80,16 @@
 
     // 计算tbale属性
     // 计算.grid-body，.grid-body .free和.grid-body .freeze高度
-    var _calcuHeight = function(inputHeight) {
-        // 输入参数高度
-        inputHeight = inputHeight || 0;
+    var _calcuHeight = function() {
+        // 重置高度
+        $(".grid-body").find(".freeze").css("height", "auto")
+            .end().find(".free").css("height", "auto")
+            .end().css("height", "auto");
+
         var headerHeight = $(".grid-header").height();
-        if (initHeight == 0) {
-            initHeight = $(".grid-body").height();
-        } 
-        initHeight += inputHeight;
+        var currentHeight = $(".grid-body").height();
         var bodyHeight = $(".grid").height() - headerHeight;
-        var validHeight = bodyHeight < initHeight ? bodyHeight : initHeight;
+        var validHeight = bodyHeight < currentHeight ? bodyHeight : currentHeight;
         $(".grid-body").css({
             height: validHeight
         }).find(".freeze").css({
@@ -104,7 +101,9 @@
 
     // 计算宽度
     var _calcuWidth = function() {
-        // 清除原来宽度
+        // 重置宽度
+        $(".grid-body").find(".freeze").css("width", "auto")
+            .end().find(".free").css("width", "auto");
         var bodyWidth = $(".grid").width();
         freezeWdith = $(".grid-body .freeze").width();
         $(".grid-body").css({
@@ -118,6 +117,9 @@
 
     // 宽度适配
     var _widthAdapt = function() {
+        // 重置宽度
+        $(".grid").find(".grid-item").css("width", "auto")
+            .end().find(".grid-body .free .grid-row").css("width", "auto");
         // 计算.grid-row的宽度
         var scrollWidth = $(".grid-body .free")[0].scrollWidth;
         $(".grid-body .free .grid-row").width(scrollWidth);
@@ -143,6 +145,14 @@
         $(".grid-header .free").css('left', freezeWidth);
         $(".grid-body .free").css('left', freezeWidth);
     };
+
+    // 重置宽度方法
+    var _resetWidth = function() {
+        _widthAdapt();
+        _calcuWidth();
+        _leftOffset();
+    };
+
 
     // 渲染odd和even属性
     var _renderOdd = function() {
@@ -190,23 +200,32 @@
 
     // 删除指定行
     var _deleteRow = function(index) {
-        var height = $(".grid-row[data-index=" + index + "]").height();
         $(".grid-row[data-index=" + index + "]").remove();
-        _calcuHeight(-height);
+        _calcuHeight();
         // 重算odd和even
         _renderOdd();
-    }    
+    };    
 
     // 删除选中行
     var _deleteSelectedRow = function() {
-        var height = $(".grid-row.selected").height();
         $(".grid-row.selected").remove();
-        _calcuHeight(-height);
+        _calcuHeight();
         // 重算odd和even
         _renderOdd();
-    }
+    };
 
-
+    // 更新指定行数据
+    var _updateRow = function(index, values) {
+        $indexItems = $(".grid-row[data-index=" + index + "] .grid-item");
+        $indexItems.each(function() {
+            var key = $(this).attr("data-field");
+            var value = values[key];
+            if (value) {
+                $(this).text(value);
+            }
+        });
+        _resetWidth();
+    };
 
     $.fn.divTable = function(options) {
         var options = $.extend({}, $.fn.divTable.defaults, options);
@@ -219,9 +238,7 @@
 
         // calcuTable
         _calcuHeight();
-        _calcuWidth();
-        _widthAdapt();
-        _leftOffset();
+        _resetWidth();
 
         _renderOdd();
     
@@ -239,8 +256,8 @@
            return _selectValue();
         },
         // TODO 更新某行数据
-        divTableUpdate: function(value) {
-
+        divTableUpdate: function(index, values) {
+            _updateRow(index, values)
         },
         // 删除某行数据
         divTableDelete: function(index) {
@@ -249,6 +266,10 @@
         // 删除选中行
         divTableDeleteSelected: function() {
             _deleteSelectedRow();
+        },
+        // 重置宽度
+        divTableResetWidth: function() {
+            _resetWidth();
         }
     });
     // 默认参数
