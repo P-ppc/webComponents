@@ -1,7 +1,11 @@
 // 利用div实现table
 // 依赖jQuery, artTemplate.js
 // 暂不支持rowspan和colspan, 多行header
-// TODO 修改, 修改时重新计算.grid-body的宽度
+// TODO 修改, 修改时重新计算.grid-body/.grid-header, .grid-body/.grid-header .freeze, .grid-body/.grid-header .free的宽度以及left offset
+// TODO 支持多列表头
+// TODO 支持colspan, rowspan
+// TODO 支持maxWidth
+// TODO 提高高度以包含滚动条
 
 (function($) {
     // 初始变量
