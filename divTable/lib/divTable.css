@@ -60,53 +60,10 @@
 
 .grid-item {
     display: inline-block;
-    vertical-align: middle;
     height: 100%;
     padding: 0 10px;
     box-sizing: border-box;
     border-right: #d4d4d4 dotted 1px;
-}
-
-.grid-item.check {
-    min-width: 36px;
-}
-
-.grid-item.name {
-    min-width: 150px;
-}
-
-.grid-item.no {
-    min-width: 120px;
-}
-
-.grid-item.gender {
-    min-width: 50px;
-}
-
-.grid-item.property {
-    min-width: 120px;
-}
-
-.grid-item.position {
-    min-width: 120px;
-}
-
-.grid-item.status {
-    min-width: 150px;
-}
-
-.grid-item.region {
-    min-width: 150px;
-}
-
-.grid-item.role {
-    min-width: 150px;
-}
-
-.grid-item.managementUnit {
-    min-width: 100px;
-}
-
-.grid-item.GID {
-    min-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

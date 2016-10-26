@@ -3,7 +3,6 @@
 // 暂不支持rowspan和colspan, 多行header
 // TODO 支持多列表头
 // TODO 支持colspan, rowspan
-// TODO 支持maxWidth
 // TODO 提高高度以包含滚动条
 
 (function($) {
@@ -20,8 +19,8 @@
     var freezeColumnCount = 0;
     // min-width映射
     var minWidthMap = {};
-    // 固定列宽度
-    var freezeWidth = 0;
+    // max-width映射
+    var maxWidthMap = {};
 
     // 渲染header
     var _renderHeader = function(target, data) {
@@ -32,8 +31,12 @@
 
         $.each(data, function(index, item) {
             var $headerItem = $gridItem.clone();
-            $headerItem.text(item.text).css('min-width', item.minWidth).addClass("grid_" + item.property);
+            $headerItem.text(item.text).css({
+                "min-width": item.minWidth,
+                "max-width": item.maxWidth
+            }).attr("data-field", item.property);
             minWidthMap[item.property] = item.minWidth;
+            maxWidthMap[item.property] = item.maxWidth;
             if (item.type && item.type == 'freeze') {
                 $headerFreezeGridRow.append($headerItem);
                 freezeColumnCount += 1;
@@ -60,7 +63,10 @@
             var $bodyFreeGridRow = $gridRow.clone();
             $.each(item, function(innerIndex, innerValue) {
                 var $bodyItem = $gridItem.clone();
-                $bodyItem.text(innerValue).css('min-width', minWidthMap[innerIndex]).addClass("grid_" + innerIndex).attr("data-field", innerIndex);
+                $bodyItem.text(innerValue).css({
+                    "min-width": minWidthMap[innerIndex],
+                    "max-width": maxWidthMap[innerIndex]
+                }).attr("data-field", innerIndex);
                 if (_freezeColumnCount > 0) {
                     $bodyFreezeGridRow.append($bodyItem);
                     _freezeColumnCount -= 1;
@@ -123,12 +129,11 @@
         // 计算.grid-row的宽度
         var scrollWidth = $(".grid-body .free")[0].scrollWidth;
         $(".grid-body .free .grid-row").width(scrollWidth);
-        // 计算每个grid-item的宽度, 通过class标记
+        // 计算每个grid-item的宽度, 通过data-field标记
         var $columnItems = $(".grid-header .grid-item");
         $columnItems.each(function() {
-            var classes = $(this).attr("class").split(" ");
-            var classString = '.' + classes.join(".");
-            var $items = $(classString);
+            var key = $(this).attr("data-field");
+            var $items = $(".grid-item[data-field=" + key + "]");
             var maxWidth = 0;
             $items.each(function() {
                 if ($(this).width() > maxWidth) {
@@ -141,7 +146,7 @@
 
     // .free 左位移
     var _leftOffset = function() {
-        freezeWidth = $(".grid-body .freeze").width();
+        var freezeWidth = $(".grid-body .freeze").width();
         $(".grid-header .free").css('left', freezeWidth);
         $(".grid-body .free").css('left', freezeWidth);
     };
@@ -255,7 +260,7 @@
         divTableSelected: function() {
            return _selectValue();
         },
-        // TODO 更新某行数据
+        // 更新某行数据
         divTableUpdate: function(index, values) {
             _updateRow(index, values)
         },
