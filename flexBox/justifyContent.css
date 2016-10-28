@@ -1,0 +1,45 @@
+.box {
+    width: 100%;
+    height: 50px;
+
+    display: flex; 
+    background: #ccc;
+}
+
+.inner-box1 {
+    height: 100%;
+    width: 200px;
+    background: #ffc6c5;
+}
+
+.inner-box2 {
+    height: 100%;
+    width: 200px;
+    background: #c5ffc4;
+}
+
+.inner-box3 {
+    height: 100%;
+    width: 200px;
+    background: #c6c5ff;
+}
+
+.box1 {
+    justify-content: flex-start;
+}
+
+.box2 {
+    justify-content: flex-end;
+}
+
+.box3 {
+    justify-content: center;
+}
+
+.box4 {
+    justify-content: space-between;
+}
+
+.box5 {
+    justify-content: space-around;
+}

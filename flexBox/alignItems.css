@@ -1,0 +1,50 @@
+.box {
+    width: 100%;
+    height: 100px;
+    background: #ccc;
+    display: flex;
+}
+
+.inner-box1 {
+    width: 200px;
+    height: 40px;
+    background: #ffc6c5;
+}
+
+.inner-box2 {
+    width: 200px;
+    height: 60px;
+    background: #c5ffc4;
+}
+
+.inner-box3 {
+    width: 200px;
+    height: 30px;
+    background: #c6c5ff;
+}
+
+.box1 {
+    align-items: flex-start;
+}
+
+.box2 {
+    align-items: flex-end;
+}
+
+.box3 {
+    align-items: center;
+}
+
+.box4 {
+    align-items: baseline;
+}
+
+.box5 {
+    align-items: stretch;
+}
+
+.box5 .inner-box1,
+.box5 .inner-box2,
+.box5 .inner-box3 {
+    height: auto;
+}

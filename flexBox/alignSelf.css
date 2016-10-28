@@ -1,0 +1,42 @@
+.box {
+    width: 100%;
+    height: 300px;
+    background: #ccc;
+
+    display: flex;
+}
+
+.box1 {
+    align-items: flex-end;
+}
+
+.inner-box {
+    width: 40px;
+    height: 30px;
+    border: 1px solid #000;
+}
+
+.inner-box1 {
+    align-self: auto;
+}
+
+.inner-box2 {
+    align-self: flex-start;
+}
+
+.inner-box3 {
+    align-self: flex-end;
+}
+
+.inner-box4 {
+    align-self: center;
+}
+
+.inner-box5 {
+    align-self: baseline;
+}
+
+.inner-box6 {
+    align-self: stretch;
+    height: auto;
+}
