@@ -1,15 +1,19 @@
-'use strict';
-// simple http server to support file upload.
+var express = require('express');
+var app = express();
+var multer = require('multer');
+var upload = multer({dest: 'upload_tmp/'});
 
-var PORT = 3000;
+app.use(express.static('.'));
 
-var http = require('http');
 
-http.createServer(function(request, response) {
-    response.writeHead(200, {
-        'Content-Type': 'text/plain'
-    });
-    response.end('Hello World\n');
-}).listen(PORT);
+app.post('/', upload.single('formFile'), function (req, res) {
+    console.log(req.file);
+    res.send('Hello World!');
+});
 
-console.log(`Server running at 127.0.0.1:${PORT}`);
+var server = app.listen(3000, function () {
+    var host = server.address().address;
+    var port = server.address().port;
+
+    console.log('Example app listening at http://%s:%s', host, port);
+});

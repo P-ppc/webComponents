@@ -7,9 +7,16 @@
 </head>
 <body>
     <div class="row" style="width: 600px; margin-top: 100px;">
-        <p>html5文件上传</p>
+        <p>xhr上传</p>
         <input type="file" name="file" id="file">
         <button>提交</button>
+    </div>
+    <div class="row" style="width: 600px;">
+        <p>form上传</p>
+        <form action="/" method="POST" enctype="multipart/form-data">
+            <input type="file" name="formFile">
+            <button type="submit">提交</button>
+        </form>
     </div>
 <script type="text/javascript">
 window.onload = function() {
@@ -29,8 +36,6 @@ window.onload = function() {
 
     var fileEm = document.getElementById("file");
     fileEm.onchange = function() {
-        console.log(this.files);
-        console.log(this.files[0]);
         FileUpload(this.files[0]);
     };
     function FileUpload(file) {
@@ -50,15 +55,13 @@ window.onload = function() {
             console.log("file load done!");
         }, false);
 
-        xhr.open("POST", "my server url");
+        xhr.open("POST", "http://127.0.0.1:3000");
         xhr.overrideMimeType('text/plain; charset=x-user-defined-binary');
         reader.onload = function(evt) {
             xhr.sendAsBinary(evt.target.result);
         };
         reader.readAsBinaryString(file);
     }
-
-
 };
 </script>
 </body>
