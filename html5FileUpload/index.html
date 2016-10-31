@@ -20,48 +20,18 @@
     </div>
 <script type="text/javascript">
 window.onload = function() {
-    try {
-        if (typeof XMLHttpRequest.prototype.sendAsBinary == 'undefined') {
-            console.log("add sendAsBinary function");
-            XMLHttpRequest.prototype.sendAsBinary = function(text){
-                var data = new ArrayBuffer(text.length);
-                var ui8a = new Uint8Array(data, 0);
-                for (var i = 0; i < text.length; i++) ui8a[i] = (text.charCodeAt(i) & 0xff);
-                this.send(ui8a);
-            }
-        }
-    } catch (e) {
-        console.log(e);
-    }
-
     var fileEm = document.getElementById("file");
     fileEm.onchange = function() {
         FileUpload(this.files[0]);
     };
     function FileUpload(file) {
-        var reader = new FileReader();
-        var xhr = new XMLHttpRequest();
-        this.xhr = xhr;
-
-        console.log("start upload!");
-        xhr.upload.addEventListener("progress", function(e) {
-            if (e.lengthComputable) {
-                var percentage = Math.round((e.loaded * 100) / e.total);
-                console.log(percentage);
-            }
-        }, false);
-
-        xhr.upload.addEventListener("load", function(e) {
-            console.log("file load done!");
-        }, false);
-
-        xhr.open("POST", "http://127.0.0.1:3000");
-        xhr.overrideMimeType('text/plain; charset=x-user-defined-binary');
-        reader.onload = function(evt) {
-            xhr.sendAsBinary(evt.target.result);
-        };
-        reader.readAsBinaryString(file);
+        var fd = new FormData();  
+        fd.append("formFile", file);
+        var xhr = new XMLHttpRequest();   
+        xhr.open("POST", "http://127.0.0.1:3000");  
+        xhr.send(fd);  
     }
+    
 };
 </script>
 </body>
