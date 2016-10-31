@@ -9,7 +9,13 @@
     <div class="row" style="width: 600px; margin-top: 100px;">
         <p>xhr上传</p>
         <input type="file" name="file" id="file">
-        <button>提交</button>
+        <br>
+        <br>
+        <small>文件名: <span id="fileName"></span></small><br>
+        <small>文件大小: <span id="fileSize"></span></small><br>
+        <small>文件类型: <span id="fileType"></span></small><br>
+        <br>
+        <button id="upload">提交</button>
     </div>
     <div class="row" style="width: 600px;">
         <p>form上传</p>
@@ -20,10 +26,6 @@
     </div>
 <script type="text/javascript">
 window.onload = function() {
-    var fileEm = document.getElementById("file");
-    fileEm.onchange = function() {
-        FileUpload(this.files[0]);
-    };
     function FileUpload(file) {
         var fd = new FormData();  
         fd.append("formFile", file);
@@ -31,7 +33,30 @@ window.onload = function() {
         xhr.open("POST", "http://127.0.0.1:3000");  
         xhr.send(fd);  
     }
-    
+    var fileEm = document.getElementById("file");
+    var file;
+    fileEm.onchange = function() {
+        file = this.files[0];
+        if (file) {
+            var fileSize = file.size;
+            if (fileSize > 1024 * 1024) {
+                fileSize = Math.round(fileSize / (1024 * 1024)) + "MB";
+            } else {
+                fileSize = Math.round(fileSize / 1024) + "KB";
+            }
+            document.getElementById('fileName').innerHTML = file.name;  
+            document.getElementById('fileSize').innerHTML = fileSize;  
+            document.getElementById('fileType').innerHTML = file.type;
+        }
+    };
+    var uploadBtn = document.getElementById("upload");
+    uploadBtn.onclick = function() {
+        if (file) {
+            FileUpload(file);
+        } else {
+            alert("please choose the file!");
+        }
+    }
 };
 </script>
 </body>
