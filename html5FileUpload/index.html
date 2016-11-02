@@ -15,6 +15,7 @@
         <small>文件大小: <span id="fileSize"></span></small><br>
         <small>文件类型: <span id="fileType"></span></small><br>
         <small>响应: <span id="response"></span></small><br>
+        <small>进度条: <div class="progress-container"><div class="progress" id="progress"></div></div></small>
         <br>
         <button id="upload">提交</button>
     </div>
@@ -42,10 +43,11 @@ window.onload = function() {
     }
 
     // 上传进度
+    var progress = document.getElementById("progress");
     function uploadProgress (e) {
         if (e.lengthComputable) {
             var percentComplete = Math.round(e.loaded * 100 / e.total);
-            console.log(percentComplete);
+            progress.style.width = percentComplete + "%";
         } else {
             console.log("unable to compute");
         }

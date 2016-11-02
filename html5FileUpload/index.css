@@ -11,3 +11,17 @@
 p {
     margin: 10px 0;
 }
+
+.progress-container {
+    width: 200px;
+    height: 1em;
+    background: #ccc;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.progress {
+    height: 100%;
+    background: #6995ff;
+    width: 0%;
+}
