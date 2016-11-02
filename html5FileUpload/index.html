@@ -28,26 +28,51 @@
     </div>
 <script type="text/javascript">
 window.onload = function() {
+    // 获取分块
+    function getChunk(file, start, chunkSize) {
+        if (start >= file.size - 1) {
+            return;
+        } 
+        if (start + chunkSize > file.size) {
+            return file.slice(start, file.size - 1);
+        } else {
+            return file.slice(start, start + chunkSize);
+        }
+    }
+
+    var uploadSize = 0;
+    var percent = 0;
     function FileUpload(file) {
-        var fd = new FormData();  
-        fd.append("formFile", file);
+        var fd = new FormData(); 
+        var chunk = getChunk(file, uploadSize, 1024 * 1024);
+        if (!chunk) {
+            var response = document.getElementById("response");
+            response.innerHTML = "upload complete";
+            return;
+        }
+        uploadSize += chunk.size;
+        percent = Math.round(uploadSize / file.size * 100);
+        fd.append("formFile", chunk);
         var xhr = new XMLHttpRequest();   
         xhr.upload.addEventListener("progress", uploadProgress, false);
         xhr.open("POST", "http://127.0.0.1:3000");  
         xhr.send(fd);
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                document.getElementById('response').innerHTML = xhr.responseText;
+                if (xhr.responseText == "success") {
+                    // 上传下一块
+                    FileUpload(file);
+                }
             }
         }
+
     }
 
     // 上传进度
     var progress = document.getElementById("progress");
     function uploadProgress (e) {
         if (e.lengthComputable) {
-            var percentComplete = Math.round(e.loaded * 100 / e.total);
-            progress.style.width = percentComplete + "%";
+            progress.style.width = percent + "%";
         } else {
             console.log("unable to compute");
         }

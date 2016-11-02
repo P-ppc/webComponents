@@ -8,7 +8,7 @@ app.use(express.static('.'));
 
 app.post('/', upload.single('formFile'), function (req, res) {
     console.log(req.file);
-    res.send('Hello World!');
+    res.send('success');
 });
 
 var server = app.listen(3000, function () {
