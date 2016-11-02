@@ -30,11 +30,11 @@
 window.onload = function() {
     // 获取分块
     function getChunk(file, start, chunkSize) {
-        if (start >= file.size - 1) {
+        if (start >= file.size) {
             return;
         } 
         if (start + chunkSize > file.size) {
-            return file.slice(start, file.size - 1);
+            return file.slice(start, file.size);
         } else {
             return file.slice(start, start + chunkSize);
         }
@@ -42,48 +42,65 @@ window.onload = function() {
 
     var uploadSize = 0;
     var percent = 0;
-    function FileUpload(file) {
-        var fd = new FormData(); 
+    var fileFlag = "";
+
+    function FileUpload (file) {
+        var fd = new FormData();
+        if (uploadSize == 0) {
+            fd.append("baseName", file.name);
+            fd.append("baseMimeType", file.type);
+        }
         var chunk = getChunk(file, uploadSize, 1024 * 1024);
         if (!chunk) {
             var response = document.getElementById("response");
             response.innerHTML = "upload complete";
             return;
         }
-        uploadSize += chunk.size;
-        percent = Math.round(uploadSize / file.size * 100);
+        if (chunk.size < 1024 * 1024) {
+            fd.append("finish", true);
+        }
         fd.append("formFile", chunk);
-        var xhr = new XMLHttpRequest();   
-        xhr.upload.addEventListener("progress", uploadProgress, false);
-        xhr.open("POST", "http://127.0.0.1:3000");  
+        fd.append("fileFlag", fileFlag);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://127.0.0.1:3000");
         xhr.send(fd);
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                if (xhr.responseText == "success") {
-                    // 上传下一块
+                var respData = JSON.parse(xhr.responseText);
+                if (respData.code == 0) {
+                    // 成功
+                    if (respData.fileFlag != undefined) {
+                        fileFlag = respData.fileFlag;
+                    } 
+                    uploadSize += chunk.size;
+                    percent = Math.round(uploadSize / file.size * 100);
+                    uploadProgress(percent);
                     FileUpload(file);
                 }
             }
         }
-
     }
 
     // 上传进度
     var progress = document.getElementById("progress");
-    function uploadProgress (e) {
-        if (e.lengthComputable) {
-            progress.style.width = percent + "%";
-        } else {
-            console.log("unable to compute");
-        }
+    function uploadProgress (percent) {
+        progress.style.width = percent + "%";
     }
 
     var fileEm = document.getElementById("file");
     var file;
     fileEm.onchange = function() {
+        // 清空原信息
+        uploadSize = 0;
+        percent = 0;
+        fileFlag = "";
+        var response = document.getElementById("response");
+        response.innerHTML = "";
+
         file = this.files[0];
         if (file) {
             var fileSize = file.size;
+            console.log(fileSize);
             if (fileSize > 1024 * 1024) {
                 fileSize = Math.round(fileSize / (1024 * 1024)) + "MB";
             } else {
