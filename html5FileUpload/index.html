@@ -26,105 +26,60 @@
             <button type="submit">提交</button>
         </form>
     </div>
+<script src="uploader.js"></script>
 <script type="text/javascript">
-window.onload = function() {
-    // 获取分块
-    function getChunk(file, start, chunkSize) {
-        if (start >= file.size) {
-            return;
-        } 
-        if (start + chunkSize > file.size) {
-            return file.slice(start, file.size);
-        } else {
-            return file.slice(start, start + chunkSize);
-        }
-    }
-
-    var uploadSize = 0;
-    var percent = 0;
-    var fileFlag = "";
-
-    function FileUpload (file) {
-        var fd = new FormData();
-        if (uploadSize == 0) {
-            fd.append("baseName", file.name);
-            fd.append("baseMimeType", file.type);
-        }
-        var chunk = getChunk(file, uploadSize, 1024 * 1024 * 5);
-        if (!chunk) {
-            var response = document.getElementById("response");
-            response.innerHTML = "upload complete";
-            var uploadBtn = document.getElementById("upload");
-            uploadBtn.innerHTML = "上传完成";
-            return;
-        }
-        if (chunk.size < 1024 * 1024 * 5) {
-            fd.append("finish", true);
-        }
-        fd.append("formFile", chunk);
-        fd.append("fileFlag", fileFlag);
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://127.0.0.1:3000");
-        xhr.send(fd);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                var respData = JSON.parse(xhr.responseText);
-                if (respData.code == 0) {
-                    // 成功
-                    if (respData.fileFlag != undefined) {
-                        fileFlag = respData.fileFlag;
-                    }
-                    uploadSize += chunk.size;
-                    percent = Math.round(uploadSize / file.size * 100);
-                    uploadProgress(percent);
-                    if (uploadingFlag) {
-                        FileUpload(file);
-                    }
-                }
-            }
-        }
-    }
-
-    // 上传进度
+window.onload = function() {  
+    var fileEm = document.getElementById("file");
+    var uploadBtn = document.getElementById("upload");
     var progress = document.getElementById("progress");
+    var response = document.getElementById("response");
+
+    var uploader;
+
     function uploadProgress (percent) {
         progress.style.width = percent + "%";
     }
 
-    var fileEm = document.getElementById("file");
-    var file;
     fileEm.onchange = function() {
-        // 清空原信息
-        uploadSize = 0;
-        percent = 0;
-        fileFlag = "";
-        var response = document.getElementById("response");
-        response.innerHTML = "";
-
         file = this.files[0];
+        var file = this.files[0];
         if (file) {
-            var fileSize = file.size;
-            if (fileSize > 1024 * 1024) {
-                fileSize = Math.round(fileSize / (1024 * 1024)) + "MB";
-            } else {
-                fileSize = Math.round(fileSize / 1024) + "KB";
-            }
-            document.getElementById('fileName').innerHTML = file.name;  
-            document.getElementById('fileSize').innerHTML = fileSize;  
-            document.getElementById('fileType').innerHTML = file.type;
+            uploader = new Uploader({
+                file: file,
+                uploadUrl: "http://127.0.0.1:3000",
+                chunkSize: 1024 * 1024 * 5,
+                progress: function (percent) {
+                    uploadProgress(percent);
+                },
+                finish: function () {
+                    response.innerHTML = "upload complete";
+                    uploadBtn.innerHTML = "上传完毕";
+                }
+            });
+            uploader.init(function (file) {
+                response.innerHTML = "";
+                var fileSize = file.size;
+                if (fileSize > 1024 * 1024) {
+                    fileSize = Math.round(fileSize / (1024 * 1024)) + "MB";
+                } else {
+                    fileSize = Math.round(fileSize / 1024) + "KB";
+                }
+                document.getElementById('fileName').innerHTML = file.name;  
+                document.getElementById('fileSize').innerHTML = fileSize;  
+                document.getElementById('fileType').innerHTML = file.type;
+            });
         }
     };
-    var uploadBtn = document.getElementById("upload");
-    var uploadingFlag = false; // 上传状态
     uploadBtn.onclick = function() {
-        if (file) {
-            if (!uploadingFlag) {
-                this.innerHTML = "点击暂停";
-                uploadingFlag = true;
-                FileUpload(file);
+        if (uploader) {
+            if (!uploader.uploadingFlag) {
+                uploader.start(function () {
+                    uploadBtn.innerHTML = "点击暂停";
+                });
             } else {
-                this.innerHTML = "点击续传";
-                uploadingFlag = false;
+                uploader.pause(function () {
+                    uploadBtn.innerHTML = "点击续传";
+                });
             }
         } else {
             alert("please choose the file!");
