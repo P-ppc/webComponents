@@ -17,7 +17,7 @@
         <small>响应: <span id="response"></span></small><br>
         <small>进度条: <div class="progress-container"><div class="progress" id="progress"></div></div></small>
         <br>
-        <button id="upload">提交</button>
+        <button id="upload">点击上传</button>
     </div>
     <div class="row" style="width: 600px;">
         <p>form上传</p>
@@ -50,13 +50,15 @@ window.onload = function() {
             fd.append("baseName", file.name);
             fd.append("baseMimeType", file.type);
         }
-        var chunk = getChunk(file, uploadSize, 1024 * 1024);
+        var chunk = getChunk(file, uploadSize, 1024 * 1024 * 5);
         if (!chunk) {
             var response = document.getElementById("response");
             response.innerHTML = "upload complete";
+            var uploadBtn = document.getElementById("upload");
+            uploadBtn.innerHTML = "上传完成";
             return;
         }
-        if (chunk.size < 1024 * 1024) {
+        if (chunk.size < 1024 * 1024 * 5) {
             fd.append("finish", true);
         }
         fd.append("formFile", chunk);
@@ -71,11 +73,13 @@ window.onload = function() {
                     // 成功
                     if (respData.fileFlag != undefined) {
                         fileFlag = respData.fileFlag;
-                    } 
+                    }
                     uploadSize += chunk.size;
                     percent = Math.round(uploadSize / file.size * 100);
                     uploadProgress(percent);
-                    FileUpload(file);
+                    if (uploadingFlag) {
+                        FileUpload(file);
+                    }
                 }
             }
         }
@@ -100,7 +104,6 @@ window.onload = function() {
         file = this.files[0];
         if (file) {
             var fileSize = file.size;
-            console.log(fileSize);
             if (fileSize > 1024 * 1024) {
                 fileSize = Math.round(fileSize / (1024 * 1024)) + "MB";
             } else {
@@ -112,9 +115,17 @@ window.onload = function() {
         }
     };
     var uploadBtn = document.getElementById("upload");
+    var uploadingFlag = false; // 上传状态
     uploadBtn.onclick = function() {
         if (file) {
-            FileUpload(file);
+            if (!uploadingFlag) {
+                this.innerHTML = "点击暂停";
+                uploadingFlag = true;
+                FileUpload(file);
+            } else {
+                this.innerHTML = "点击续传";
+                uploadingFlag = false;
+            }
         } else {
             alert("please choose the file!");
         }
