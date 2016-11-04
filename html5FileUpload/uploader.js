@@ -32,10 +32,11 @@ function Uploader (options) {
         }
         var chunk = this._getChunk(this.file, this.uploadedSize, this.chunkSize);
         if (!chunk) {
+            this.uploadingFlag = false;
             this.fn.finish();
             return;
         }
-        if (chunk.size < this.chunkSize) {
+        if (this.uploadedSize + chunk.size == this.file.size) {
             fd.append("finish", true);
         }
         fd.append("formFile", chunk);
