@@ -57,17 +57,57 @@ var api2 = function () {
     return p;
 }
 
-api1().then(api2).then(function (data) {
-    console.log(data);
-    // 再次调用api2
-    setTimeout(function () {
-        console.log("----------");
-        console.log("request the api 2 again!");
-        api2().then(function (d) {
-            console.log(d);
-        });
-    }, 2000);
-});
+// api1().then(api2).then(function (data) {
+//     console.log(data);
+//     // 再次调用api2
+//     setTimeout(function () {
+//         console.log("----------");
+//         console.log("request the api 2 again!");
+//         api2().then(function (d) {
+//             console.log(d);
+//         });
+//     }, 2000);
+// });
 
-// 需求:
-//      1. 对每个Promise进行异常处理
+// 需求: 异常处理
+
+var error1 = function () {
+    var p = new Promise(function (resolve, reject) {
+        reject("in error 1!");
+        resolve();
+    });
+    return p;
+}
+
+var error2 = function () {
+    var p = new Promise(function (resolve, reject) {
+        reject("in error 2!");
+    });
+    return p;
+}
+
+// 对整体Promise链进行异常处理
+// error1().then(error2).catch(function (reason) {
+//     console.log(reason);
+// });
+
+// 对每个Promise链上的Promise单独进行异常处理
+// 太过繁杂
+error1()
+.then(
+    function (data) {
+        error2().
+        then(
+            function (data) {
+
+            },
+            function (reason) {
+                console.log(reason);
+            }
+        );
+    },
+    function (reason) {
+        console.log(reason);
+    }
+);
+
