@@ -6,10 +6,14 @@
     <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
-    <!-- <div class="row">
-        <p>在线用户</p>
-        <div class="board"></div>
-    </div> -->
+    <div class="cover">
+        <div class="row login-form">
+            <p>输入你的用户名</p>
+            <input type="text" placeholder="请输入用户名">
+            <button>提交</button>
+        </div>
+    </div>
+    
     <div class="row">
         <p>聊天信息</p>
         <div class="board"></div>
@@ -17,8 +21,10 @@
     <div class="row">
         <p>输入信息</p>
         <textarea></textarea>
-        <button>发送</button>
+        <button>发送信息</button>
+        <button>退出聊天室</button>
     </div>
-<script type="text/javascript" src="websocket.js"></script>
+<script type="text/javascript" src="socket.io.js"></script>
+<script type="text/javascript" src="client.js"></script>
 </body>
 </html>

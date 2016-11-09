@@ -25,3 +25,25 @@ textarea {
     height: 50px;
     overflow: auto;
 }
+
+.login-form {
+    width: 200px;
+
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    
+    margin-left: -100px;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+.cover {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    background: #fff;
+}
