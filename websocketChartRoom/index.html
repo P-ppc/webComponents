@@ -13,16 +13,19 @@
             <button id="loginBtn">提交</button>
         </div>
     </div>
-    
+    <div class="row">
+        <p>在线用户</p>
+        <div class="board" id="userBoard"></div>
+    </div>
     <div class="row">
         <p>聊天信息</p>
-        <div class="board"></div>
+        <div class="board" id="messageBoard"></div>
     </div>
     <div class="row">
         <p>输入信息</p>
-        <textarea></textarea>
-        <button>发送信息</button>
-        <button>退出聊天室</button>
+        <textarea id="messageInput"></textarea>
+        <button id="sendBtn">发送信息</button>
+        <button id="logoutBtn">退出聊天室</button>
     </div>
 <script type="text/javascript" src="socket.io.js"></script>
 <script type="text/javascript" src="client.js"></script>

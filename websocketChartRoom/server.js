@@ -14,7 +14,7 @@ var onlineUsers = {};
 var onlineCount = 0;
 
 io.on('connection', function (socket) {
-    console.log('a user connected');
+    console.log('one user connected');
 
     // 监听新用户加入
     socket.on('login', function (obj) {
